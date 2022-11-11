@@ -1,11 +1,9 @@
 import { useState } from "react";
 import './App.css';
-import AddressBook from './Address-Book/AddressBook';
-import PageSize from "./Address-Book/PageSize";
 import AddressModal from "./Address-Book/AddressModal";
-import { Button } from "react-bootstrap";
 import {AddressProvider} from './Address-Book/Context/AddressContext';
 import NavigationButtons from "./Address-Book/NavigationButtons";
+import AddressBookContainer from "./Address-Book/Address-Book-Container";
 
 function App() {
   const [displaySize, setDisplaySize] = useState(4);
@@ -23,8 +21,8 @@ function App() {
                 <NavigationButtons displaySize={displaySize} onDisplaySizeChange={onDisplaySizeChange}></NavigationButtons>
               </div>
           </nav>
-          <div className="container mt-3">
-            <AddressBook displaySize={displaySize}></AddressBook>
+          <div className="container">
+            <AddressBookContainer displaySize={displaySize}></AddressBookContainer>
             <AddressModal></AddressModal>
           </div>
         </AddressProvider>

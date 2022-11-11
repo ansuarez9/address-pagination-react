@@ -11,9 +11,7 @@ function AddressModal() {
     const { onUpdateAddress, address, modalConfig, updateModalConfig, onDeleteAddress } = useContext(AddressContext);
 
     const isEditMode = modalConfig?.mode === 'edit';
-    const deleteButton = <Button variant="danger" onClick={() => deleteAddress()}>
-    Delete
-</Button>;
+    const deleteButton = <Button variant="danger" onClick={() => deleteAddress()}>Delete</Button>;
 
     useEffect(() => setValidated(false), [modalConfig]);
 
