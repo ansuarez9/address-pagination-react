@@ -1,13 +1,17 @@
+import { useContext } from 'react';
 import clsx from 'clsx';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import {AddressContext} from './Context/AddressContext';
 
 function AddressCard(props) {
-    const { address, onAddressSelection, onEditClick } = props;
+    const {address} = props;
+
+    const {onSetAddress, onAddressSelection, updateModalConfig} = useContext(AddressContext);
     
     const className = clsx({
-        'border-success': address.selected,
-        'text-bg-light': address.selected
+        'text-bg-light': address.selected,
+        'bg-opacity-25': address.selected
     });
 
     const buttonClass = clsx({
@@ -16,8 +20,13 @@ function AddressCard(props) {
         'disabled': address.selected
     })
 
+    function onEditClick() {
+        updateModalConfig({show: true, mode: 'edit'});
+        onSetAddress(address);
+    }
+
     return (
-        <Card className={className}>
+        <Card bg={address.selected ? 'success' : ''} className={className}>
             <Card.Body>
                 <Card.Title>{address.nickname}</Card.Title>
                 <Card.Text>

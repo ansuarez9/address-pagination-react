@@ -1,35 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import {AddressContext} from './Context/AddressContext';
 
-function AddressModal(props) {
-    const {show, handleClose, mode, address, onUpdateAddress} = props;
+function AddressModal() {
     const [validated, setValidated] = useState(false);
+    const { onUpdateAddress, address, modalConfig, updateModalConfig, onDeleteAddress } = useContext(AddressContext);
 
-    const isEditMode = mode === 'edit';
+    const isEditMode = modalConfig?.mode === 'edit';
+    const deleteButton = <Button variant="danger" onClick={() => deleteAddress()}>
+    Delete
+</Button>;
+
+    useEffect(() => setValidated(false), [modalConfig]);
+
+    function deleteAddress() {
+        onDeleteAddress(address);
+        handleClose();
+    }
 
     function handleSubmit(e) {
         const form = e.currentTarget;
-        console.log(form);
 
-        debugger;
         if (form.checkValidity() === false) {
             e.preventDefault();
             e.stopPropagation();
         } else {
-            onUpdateAddress(buildAddress(form, isEditMode));
+            onUpdateAddress(buildAddress(form));
             handleClose();
         }
 
         setValidated(true);
     }
 
-    function buildAddress(form, isEditMode) {
-        return({
-            "id": isEditMode ? address.id : randomIdGenerator(),
+    function buildAddress(form) {
+
+        return ({
+            "id": address?.id,
             "nickname": form[1].value,
             "fullName": form[3].value,
             "address1": form[4].value,
@@ -37,26 +47,26 @@ function AddressModal(props) {
             "city": form[6].value,
             "state": form[7].value,
             "zip": form[8].value,
-            "selected": form[2].value
+            "selected": form[2].checked
         });
     }
 
-    function randomIdGenerator() {
-        return Math.floor(Math.random() * 10000);
+    function handleClose() {
+        updateModalConfig({show: false, mode: null})
     }
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={modalConfig.show} onHide={handleClose}>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{isEditMode ? 'Update' : 'New' }</Modal.Title>
+                    <Modal.Title>{isEditMode ? 'Update' : 'New'} Address</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
                         <Col>
                             <Form.Group className="mb-3" controlId="formBasicNickname">
                                 <Form.Label>Nickname</Form.Label>
-                                <Form.Control required type="text" placeholder="Enter Nickname" defaultValue={address?.nickname} />
+                                <Form.Control required type="text" placeholder="John Doe's Bachelor Pad" defaultValue={address?.nickname} />
                                 <Form.Control.Feedback type="invalid">
                                     Please add a nickname.
                                 </Form.Control.Feedback>
@@ -65,7 +75,7 @@ function AddressModal(props) {
                                 </Form.Text>
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                <Form.Check type="checkbox" label="Ship Here" />
+                                <Form.Check type="checkbox" defaultChecked={address?.selected} label="Ship Here" />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -74,7 +84,7 @@ function AddressModal(props) {
                         <Col>
                             <Form.Group className="mb-3" controlId="formBasicFullName">
                                 <Form.Label>Full Name</Form.Label>
-                                <Form.Control required type="text" placeholder="Full Name" defaultValue={address?.fullName} />
+                                <Form.Control required type="text" placeholder="John Doe" defaultValue={address?.fullName} />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide a full name.
                                 </Form.Control.Feedback>
@@ -107,7 +117,7 @@ function AddressModal(props) {
                         <Col>
                             <Form.Group className="mb-3" controlId="formBasicCity">
                                 <Form.Label>City</Form.Label>
-                                <Form.Control required type="text" placeholder="City" defaultValue={address?.city} />
+                                <Form.Control required type="text" placeholder="Washington" defaultValue={address?.city} />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide an city.
                                 </Form.Control.Feedback>
@@ -116,7 +126,7 @@ function AddressModal(props) {
                         <Col>
                             <Form.Group className="mb-3" controlId="formBasicState">
                                 <Form.Label>State</Form.Label>
-                                <Form.Control required type="text" placeholder="State" defaultValue={address?.state} />
+                                <Form.Control required type="text" placeholder="DC" defaultValue={address?.state} />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide an state.
                                 </Form.Control.Feedback>
@@ -125,7 +135,7 @@ function AddressModal(props) {
                         <Col>
                             <Form.Group className="mb-3" controlId="formBasicZip">
                                 <Form.Label>Zip</Form.Label>
-                                <Form.Control required type="text" placeholder="Zip" defaultValue={address?.zip} />
+                                <Form.Control required type="text" placeholder="20003" defaultValue={address?.zip} />
                                 <Form.Control.Feedback type="invalid">
                                     Please provide an zip code.
                                 </Form.Control.Feedback>
@@ -134,9 +144,7 @@ function AddressModal(props) {
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
+                    {modalConfig?.mode !== 'new' ? deleteButton : ''}
                     <Button variant="primary" type="submit">
                         Save
                     </Button>
