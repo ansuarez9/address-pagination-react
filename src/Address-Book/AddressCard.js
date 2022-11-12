@@ -15,12 +15,6 @@ function AddressCard(props) {
         'mb-3': true
     });
 
-    const buttonClass = clsx({
-        'btn': true,
-        'btn-success': !address.selected,
-        'disabled': address.selected
-    })
-
     function onEditClick() {
         updateModalConfig({show: true, mode: 'edit'});
         onSetAddress(address);

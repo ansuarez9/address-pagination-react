@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import Alert from "react-bootstrap/Alert";
 import AddressCard from "./AddressCard.js";
-import { Container } from "react-bootstrap";
 import {AddressContext} from "./Context/AddressContext.js";
 
 function AddressBook(props) {
@@ -11,12 +10,8 @@ function AddressBook(props) {
     const [viewAddresses, setViewAddresses] = useState(addresses.slice(viewRange[0], viewRange[1]));
 
     useEffect(() => {
-        updateViewAddresses();
-    }, [viewRange, addresses]);
-
-    function updateViewAddresses() {
         setViewAddresses(addresses.slice(viewRange[0], viewRange[1]));
-    }
+    }, [viewRange, addresses]);
 
     function showAlertMessage() {
         const addressSelectedShipping = addresses.find(a => a?.selected);

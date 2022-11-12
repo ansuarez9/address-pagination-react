@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import AddressBook from "./AddressBook";
 import { AddressContext } from "./Context/AddressContext";
 
@@ -11,10 +11,10 @@ function AddressBookContainer(props) {
 
     useEffect(() => {
         setDisableNavigation({
-            next: viewRange[1] >= addresses.length,
+            next: viewRange[1] >= addresses?.length,
             previous: viewRange[0] === 0
         });
-      }, [viewRange]);
+      }, [viewRange, addresses]);
 
       useEffect(() => {
         setViewRange([0, displaySize]);

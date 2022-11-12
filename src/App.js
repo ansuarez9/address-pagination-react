@@ -27,8 +27,8 @@ function App() {
           </div>
         </AddressProvider>
         <p className="text-muted text-center mt-5">
-          This demo app was built using React. Checkout the source code on <a target="_blank" href="https://github.com/ansuarez9/address-pagination-react">github</a>!<br/>
-          An Angular version is available <a target="_blank" href="https://address-pagination-ng.netlify.app">here</a>.
+          This demo app was built using React. Checkout the source code on <a rel="noreferrer" target="_blank" href="https://github.com/ansuarez9/address-pagination-react">github</a>!<br/>
+          An Angular version is available <a rel="noreferrer" target="_blank" href="https://address-pagination-ng.netlify.app">here</a>.
         </p>
       </>
   );
