@@ -17,7 +17,7 @@ function App() {
         <AddressProvider>
           <nav className="navbar bg-light mb-5">
               <div className="container">
-                <h1 className="navbar-brand">Address Pagination Demo</h1>
+                <h1 className="navbar-brand">Address Pagination React Edition</h1>
                 <NavigationButtons displaySize={displaySize} onDisplaySizeChange={onDisplaySizeChange}></NavigationButtons>
               </div>
           </nav>
