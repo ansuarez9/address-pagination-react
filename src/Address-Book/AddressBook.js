@@ -1,17 +1,11 @@
-import { useEffect, useState, useContext } from "react";
+import { useContext } from "react";
 import Alert from "react-bootstrap/Alert";
 import AddressCard from "./AddressCard.js";
 import {AddressContext} from "./Context/AddressContext.js";
 
 function AddressBook(props) {
-    const { viewRange } = props;
+    const { viewAddresses } = props;
     const {addresses} = useContext(AddressContext);
-
-    const [viewAddresses, setViewAddresses] = useState(addresses.slice(viewRange[0], viewRange[1]));
-
-    useEffect(() => {
-        setViewAddresses(addresses.slice(viewRange[0], viewRange[1]));
-    }, [viewRange, addresses]);
 
     function showAlertMessage() {
         const addressSelectedShipping = addresses.find(a => a?.selected);
@@ -26,7 +20,7 @@ function AddressBook(props) {
         <div className="mt-3 container">
             {showAlertMessage()}
             <div className="card-group justify-content-evenly">
-                {viewAddresses.map(address => <span className="d-flex"><AddressCard  key={address.id} address={address}></AddressCard></span>)}
+                {viewAddresses.map(address => <AddressCard key={address.id} address={address}></AddressCard>)}
             </div>
         </div>
     );
